@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
 def kmeans():
-  data = pd.read_csv('metacritic_games.csv')
-  dataframe = pd.DataFrame(data)
+  dataset = pd.read_csv('metacritic_games.csv')
+  dataframe = pd.DataFrame(dataset)
   x = dataframe['metascore'].values
   y = dataframe['user_score'].values
 
