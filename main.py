@@ -1,9 +1,6 @@
 import argparse
 import pprint
 
-# k-means
-from kmeans import *
-
 # linear regression
 from linear_regression import *
 
@@ -15,7 +12,6 @@ args = parser.parse_args()
 def main():
   method = args.method
   switcher = {
-    'k-means': kmeans_solver,
     'linear-regression': linear_regression_solver
   }
 
@@ -24,10 +20,6 @@ def main():
     return
 
   switcher[method]()
-
-def kmeans_solver():
-  print('Analisando por k-means')
-  kmeans()
 
 def linear_regression_solver():
   print('Analisando por regresión lineal')
