@@ -4,6 +4,9 @@ import pprint
 # linear regression
 from linear_regression import *
 
+# Machine learning
+from machine_learning import *
+
 parser = argparse.ArgumentParser(description="Analisis de datos")
 parser.add_argument('--method', help='1) k means\n2) linear regression\n3) algo más')
 
@@ -12,7 +15,8 @@ args = parser.parse_args()
 def main():
   method = args.method
   switcher = {
-    'linear-regression': linear_regression_solver
+    'machine-learning': machine_learning,
+    'linear-regression': linear_regression
   }
 
   if not method in switcher:
@@ -20,10 +24,6 @@ def main():
     return
 
   switcher[method]()
-
-def linear_regression_solver():
-  print('Analisando por regresión lineal')
-  linear_regression()
 
 if __name__ == '__main__':
   main();
