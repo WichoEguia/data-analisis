@@ -17,7 +17,7 @@ def linear_regression():
 
   # Entrenando X y Y
   # Dividiendo conjunto de prueba y entrenamiento
-  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.3, random_state = 0)
+  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.3, random_state = 42)
 
   # Usando los conjuntos de entrenamiento para entrenar el modelo
   reg = linear_model.LinearRegression()
