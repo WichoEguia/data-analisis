@@ -1,38 +1,42 @@
+import matplotlib.pyplot as plt 
 import numpy as np 
 import pandas as pd
-import matplotlib.pyplot as plt
+from sklearn import linear_model, metrics
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn import metrics
 
 def linear_regression():
   dataset = pd.read_csv('winequality-red.csv')
-  dataset.isnull().any()
+  dataset.isnull().any() # Limpiando dataset
 
   X = dataset.iloc[:, :-1]
-  Y = dataset.iloc[:, -1].values
+  Y = dataset.iloc[:, -1].values # Obteniendo propiedad quality
 
   print('\nEntradas del dataset')
   print('X = ', X.values)
   print('Y = ', Y)
 
-  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state = 0)
+  # Entrenando X y Y
+  # Dividiendo conjunto de prueba y entrenamiento
+  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.3, random_state = 0)
 
-  regressor = LinearRegression()
-  regressor.fit(X_train,Y_train)
+  # Usando los conjuntos de entrenamiento para entrenar el modelo
+  reg = linear_model.LinearRegression()
+  reg.fit(X_train,Y_train)
 
-  y_pred = regressor.predict(X_test)
+  # Entrenando conjunto de prueba
+  y_test_pred = reg.predict(X_test)
 
   df = pd.DataFrame({
     'Actual': Y_test,
-    'Predicted': y_pred
+    'Predicted': y_test_pred
   })
 
-  df1 = df.head(25)
+  df = df.head(40)
   print('\nDiferencia entre datos de entrenamiento y los predichos (error)')
-  print(df1)
+  print(df)
 
-  print()
-  print('Error absoluto:', metrics.mean_absolute_error(Y_test, y_pred))  
+  print('\Varianza: {}'.format(reg.score(X_test, Y_test)))
+
+  print('\nError absoluto:', metrics.mean_absolute_error(Y_test, y_pred))  
   print('Error cuadrado:', metrics.mean_squared_error(Y_test, y_pred))  
   print('Error cuadratico:', np.sqrt(metrics.mean_squared_error(Y_test, y_pred)))
