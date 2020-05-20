@@ -1,6 +1,5 @@
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.svm import SVC
 from sklearn import metrics
 from sklearn.preprocessing import LabelEncoder, StandardScaler
@@ -13,26 +12,23 @@ def machine_learning():
 
   dataset.isnull().any() # Limpiando dataset
 
-  print('\nValores del campo quality:')
-  print(dataset['quality'].value_counts()) # Los valores quality tienen un rango de 2 a 8
+  # print('\nValores del campo quality:')
+  # print(dataset['quality'].value_counts()) # Los valores quality tienen un rango de 2 a 8
 
   # Clasificando la calidad del vino [quality] en malo y bueno según el rango
-  # reviews = []
-  # for i in dataset['quality']:
-  #     if i >= 1 and i <= 3:
-  #         reviews.append('1')
-  #     elif i >= 4 and i <= 7:
-  #         reviews.append('2')
-  #     elif i >= 8 and i <= 10:
-  #         reviews.append('3')
-  # dataset['quality'] = reviews
-
   # Conviertiendo categorias "buena" y "mala" en valores numericos
   # -> 1 = malo
   # -> 2 = medio
   # -> 3 = bueno
-  # label_quality = LabelEncoder()
-  # dataset['quality'] = label_quality.fit_transform(dataset['quality'])
+  reviews = []
+  for i in dataset['quality']:
+      if i >= 1 and i <= 3:
+          reviews.append('1')
+      elif i >= 4 and i <= 7:
+          reviews.append('2')
+      elif i >= 8 and i <= 10:
+          reviews.append('3')
+  dataset['quality'] = reviews
 
   X = dataset.iloc[:, :-1]
   Y = dataset.iloc[:, -1].values # Obteniendo propiedad quality
@@ -51,5 +47,18 @@ def machine_learning():
   svc.fit(X_train, Y_train)
   pred_svc = svc.predict(X_test)
 
-  print()
-  print(metrics.classification_report(Y_test, pred_svc))
+  df = pd.DataFrame({
+    'Actual': Y_test,
+    'Predicted': pred_svc
+  })
+
+  df = df.head(40)
+  print('\nDiferencia entre datos de entrenamiento y los predichos (error)')
+  print(df)
+
+  print('\nError absoluto:', metrics.mean_absolute_error(Y_test, pred_svc))  
+  print('Error cuadrado:', metrics.mean_squared_error(Y_test, pred_svc))  
+  print('Error cuadratico:', np.sqrt(metrics.mean_squared_error(Y_test, pred_svc)))
+
+  accuracy = svc.score(X_test, Y_test)
+  print("\nPresición: {}%".format(int(round(accuracy * 100))))
