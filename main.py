@@ -1,15 +1,11 @@
 import argparse
 import pprint
 
-# linear regression
 from linear_regression import *
-
-# Machine learning
 from machine_learning import *
 
 parser = argparse.ArgumentParser(description="Analisis de datos")
 parser.add_argument('--method', help='1) k means\n2) linear regression\n3) algo más')
-
 args = parser.parse_args()
 
 def main():

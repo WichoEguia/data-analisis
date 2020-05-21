@@ -12,30 +12,12 @@ def machine_learning():
 
   dataset.isnull().any() # Limpiando dataset
 
-  # print('\nValores del campo quality:')
-  # print(dataset['quality'].value_counts()) # Los valores quality tienen un rango de 2 a 8
-
-  # Clasificando la calidad del vino [quality] en malo y bueno según el rango
-  # Conviertiendo categorias "buena" y "mala" en valores numericos
-  # -> 1 = malo
-  # -> 2 = medio
-  # -> 3 = bueno
-  reviews = []
-  for i in dataset['quality']:
-      if i >= 1 and i <= 3:
-          reviews.append('1')
-      elif i >= 4 and i <= 7:
-          reviews.append('2')
-      elif i >= 8 and i <= 10:
-          reviews.append('3')
-  dataset['quality'] = reviews
-
   X = dataset.iloc[:, :-1]
   Y = dataset.iloc[:, -1].values # Obteniendo propiedad quality
 
   # Entrenando X y Y
   # Dividiendo conjunto de prueba y entrenamiento
-  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=0)
 
   # Optimizando el resultado con escalado estandar
   sc = StandardScaler()

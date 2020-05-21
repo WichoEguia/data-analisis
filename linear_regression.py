@@ -14,19 +14,9 @@ def linear_regression():
   X = dataset.iloc[:, :-1]
   Y = dataset.iloc[:, -1].values # Obteniendo propiedad quality
 
-  reviews = []
-  for i in dataset['quality']:
-      if i >= 1 and i <= 3:
-          reviews.append('1')
-      elif i >= 4 and i <= 7:
-          reviews.append('2')
-      elif i >= 8 and i <= 10:
-          reviews.append('3')
-  dataset['quality'] = reviews
-
   # Entrenando X y Y
   # Dividiendo conjunto de prueba y entrenamiento
-  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, train_size=0.7, random_state=5)
+  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=0)
 
   # Usando los conjuntos de entrenamiento para entrenar el modelo
   reg = linear_model.LinearRegression()
