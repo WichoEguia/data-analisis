@@ -17,7 +17,7 @@ def machine_learning():
 
   # Entrenando X y Y
   # Dividiendo conjunto de prueba y entrenamiento
-  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=0)
+  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
 
   # Optimizando el resultado con escalado estandar
   sc = StandardScaler()
