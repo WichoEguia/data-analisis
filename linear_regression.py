@@ -1,42 +1,48 @@
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 import numpy as np 
 import pandas as pd
 from sklearn import linear_model, metrics
 from sklearn.model_selection import train_test_split
 
 def linear_regression():
+  # Cargando y combinando datasets
   dataset_wine_red = pd.read_csv('winequality-red.csv')
   dataset_wine_white = pd.read_csv('winequality-white.csv')
   dataset = pd.concat([dataset_wine_red, dataset_wine_white])
 
-  dataset.isnull().any() # Limpiando dataset
+  # Limpiando dataset
+  dataset.isnull().any()
 
   X = dataset.iloc[:, :-1]
   Y = dataset.iloc[:, -1].values # Obteniendo propiedad quality
 
-  # Entrenando X y Y
   # Dividiendo conjunto de prueba y entrenamiento
-  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+  X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3)
 
   # Usando los conjuntos de entrenamiento para entrenar el modelo
-  reg = linear_model.LinearRegression()
-  reg.fit(X_train,Y_train)
+  regressor = linear_model.LinearRegression()
+  regressor.fit(X_train,Y_train)
 
-  # Entrenando conjunto de prueba
-  y_test_pred = reg.predict(X_test)
+  # Obteniendo relacion de cada propiedad con quality
+  coeff_df = pd.DataFrame(regressor.coef_, X.columns, columns=['Coefficient'])
+  print(coeff_df)
 
-  df = pd.DataFrame({
-    'Actual': Y_test,
-    'Predicted': y_test_pred
-  })
+  # Prediciendo usando el conjunto de prueba
+  Y_pred = regressor.predict(X_test)
 
-  df = df.head(40)
-  print('\nDiferencia entre datos de entrenamiento y los predichos (error)')
-  print(df)
+  # Comparando resultado actual con el predicho
+  df = pd.DataFrame({ 'Actual': Y_test, 'Predicho': Y_pred })
+  df = df.head(25)
+  df.plot(kind='bar',figsize=(10,8))
+  plt.grid(which='major', linestyle='-', linewidth='0.5', color='green')
+  plt.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
+  plt.title('Actual VS Predicho')
+  plt.show()
 
-  print('\nError absoluto:', metrics.mean_absolute_error(Y_test, y_test_pred))  
-  print('Error cuadrado:', metrics.mean_squared_error(Y_test, y_test_pred))  
-  print('Error cuadratico:', np.sqrt(metrics.mean_squared_error(Y_test, y_test_pred)))
+  # print('\nError absoluto:', metrics.mean_absolute_error(Y_test, Y_pred))  
+  # print('Error cuadrado:', metrics.mean_squared_error(Y_test, Y_pred))  
+  # print('Error cuadratico:', np.sqrt(metrics.mean_squared_error(Y_test, Y_pred)))
 
-  accuracy = reg.score(X_test, Y_test)
+  # Presición del modelo
+  accuracy = regressor.score(X_test, Y_test)
   print("\nPresición: {}%".format(int(round(accuracy * 100))))
