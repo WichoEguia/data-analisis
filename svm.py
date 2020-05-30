@@ -6,6 +6,11 @@ from sklearn import metrics
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 
+'''
+metodo: Regresión lineal
+autor: José Luis Eguía Téllez
+matricula: 1791916
+'''
 def svm():
   # Cargando y combinando datasets
   dataset_wine_red = pd.read_csv('winequality-red.csv')
@@ -14,13 +19,6 @@ def svm():
 
   # Limpiando dataset
   dataset.isnull().any()
-
-  bins = (2, 4, 7, 9)
-  group_names = ['malo', 'medio', 'bueno']
-  dataset['quality'] = pd.cut(dataset['quality'], bins = bins, labels = group_names)
-
-  label_quality = LabelEncoder()
-  dataset['quality'] = label_quality.fit_transform(dataset['quality'])
 
   X = dataset.iloc[:, :-1]
   Y = dataset.iloc[:, -1].values # Obteniendo propiedad quality
@@ -57,3 +55,6 @@ def svm():
   # Presición del modelo
   accuracy = svc.score(X_test, Y_test)
   print("\nPresición: {}%".format(int(round(accuracy * 100))))
+
+if __name__ == '__main__':
+  svm()

@@ -1,20 +1,26 @@
 # KMEANS
-
 #Importar librerias
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn import metrics
+from sklearn.cluster import KMeans
 
+'''
+metodo: K Means
+autor: Isaac Ernesto Sandoval Garvalena
+matricula: 1664413
+'''
 def kmeans():
     # Cargamos los datos con panda
     dataset_red = pd.read_csv("winequality-red.csv")
     dataset_white = pd.read_csv("winequality-white.csv")
     dataset = pd.concat([dataset_red, dataset_white])
 
-    X = dataset.iloc[:, [3, 6]].values
+    X = dataset.iloc[:, :-1].values
+    Y = dataset.iloc[:, :1].values
 
     # Metodo del codo para averiguar el numero de clusters
-    from sklearn.cluster import KMeans
     wcss = []
     for i in range(1, 11):
         kmeans = KMeans(n_clusters = i, init="k-means++", max_iter = 400, n_init = 10, random_state = 0)
@@ -30,6 +36,9 @@ def kmeans():
     kmeans = KMeans(n_clusters = 3, init="k-means++", max_iter = 400, random_state = 0)
     y_kmeans = kmeans.fit_predict(X) 
 
+    state = kmeans.__getstate__()
+
+
     # Vizualizacion de los clusters 
     plt.scatter(X[y_kmeans == 0, 0], X[y_kmeans == 0, 1], s = 100, c = "red", label = "cluster 1")
     plt.scatter(X[y_kmeans == 1, 0], X[y_kmeans == 1, 1], s = 100, c= "blue", label = "cluster 2")
@@ -41,3 +50,12 @@ def kmeans():
     plt.ylabel("Dioxido de sulfuro")
     plt.legend()
     plt.show()
+
+    # Precision
+    x_pred = X[y_kmeans,0];
+    y_pred = X[y_kmeans, 1];
+
+    print("\nPrecision: {}%".format((metrics.completeness_score(X[y_kmeans, 0], X[y_kmeans, 1])) * 100));
+
+if __name__ == '__main__':
+  kmeans()

@@ -19,8 +19,14 @@ def main():
   }
 
   if not method in switcher:
-    print('Método %s no disponible' % method)
-    return
+    if method != None:
+      print('Método %s no disponible' % method)
+      return
+    else:
+      print('Falta parametro --method con alguno de los siguientes valores:')
+      print('1) linear regression\n2) Máquina de Soporte Vectorial\n3) K Means\n')
+      print('ej:\npython3 main.py --method svm')
+      return
 
   switcher[method]()
 

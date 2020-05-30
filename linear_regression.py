@@ -5,6 +5,11 @@ from sklearn import linear_model, metrics
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
+'''
+metodo: Regresión lineal
+autor: José Luis Eguía Téllez
+matricula: 1791916
+'''
 def linear_regression():
   # Cargando y combinando datasets
   dataset_wine_red = pd.read_csv('winequality-red.csv')
@@ -47,3 +52,6 @@ def linear_regression():
   # Presición del modelo
   accuracy = regressor.score(X_test, Y_test)
   print("\nPresición: {}%".format(int(round(accuracy * 100))))
+
+if __name__ == '__main__':
+  linear_regression()
